@@ -28,6 +28,6 @@ npm-debug.log*
 .DS_Store
 Thumbs.db
 
-# Private AI session exports
-/docs/ai-session-transcript.jsonl
-/PROMPTS.md
+# The owner-requested dependency, demo environment and database snapshots are
+# explicitly tracked. These patterns only apply to new untracked files.
+# Review tracked environment/database changes before committing real data.

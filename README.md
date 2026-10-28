@@ -16,6 +16,8 @@ describe, and the git history shows the Red → Green → Refactor loop one comm
 
 ---
 
+For folder descriptions, restored local files and command explanations, see the [project guide](docs/PROJECT-GUIDE.md).
+
 ## Table of contents
 
 - [Screenshots](#screenshots)
