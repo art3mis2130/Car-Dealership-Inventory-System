@@ -1,0 +1,138 @@
+@import 'tailwindcss';
+
+/*
+ * Design tokens.
+ *
+ * Tailwind v4 reads these straight out of @theme, so `bg-ink-900` or
+ * `text-brand-400` exist as real utilities and every colour in the app traces
+ * back to one definition here instead of a scattering of hex literals.
+ */
+@theme {
+  /* Showroom at night: near-black surfaces with a warm metallic accent. */
+  --color-ink-950: #05070a;
+  --color-ink-900: #0a0e14;
+  --color-ink-850: #0f141c;
+  --color-ink-800: #141b25;
+  --color-ink-700: #1d2635;
+  --color-ink-600: #2a3647;
+  --color-ink-500: #3d4b60;
+  --color-ink-400: #64748b;
+  --color-ink-300: #94a3b8;
+  --color-ink-200: #cbd5e1;
+  --color-ink-100: #e2e8f0;
+
+  --color-brand-600: #b45309;
+  --color-brand-500: #d97706;
+  --color-brand-400: #f59e0b;
+  --color-brand-300: #fbbf24;
+  --color-brand-200: #fcd34d;
+
+  --color-success-500: #10b981;
+  --color-success-300: #6ee7b7;
+  --color-danger-500: #f43f5e;
+  --color-danger-300: #fda4af;
+  --color-info-400: #38bdf8;
+
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+  --radius-card: 1rem;
+
+  --shadow-glow: 0 0 0 1px rgb(245 158 11 / 0.25), 0 8px 30px -8px rgb(245 158 11 / 0.35);
+  --shadow-lift: 0 18px 40px -24px rgb(0 0 0 / 0.9);
+
+  /*
+   * Deliberately no `both` fill mode. With fill-both these animations would
+   * hold their opacity: 0 starting frame whenever they do not actually run -
+   * reduced-motion setups, some embedded webviews, a frozen document timeline -
+   * and the content would never appear. Without it, the resting state is
+   * visible and the animation is purely additive.
+   */
+  --animate-fade-up: fade-up 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  --animate-fade-in: fade-in 0.3s ease-out;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    color-scheme: dark;
+  }
+
+  /* Respect a system-level request for less motion. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  body {
+    @apply bg-ink-950 text-ink-100 font-sans antialiased;
+    /* A faint warm glow behind the content, so the page is not flat black. */
+    background-image:
+      radial-gradient(60rem 40rem at 85% -10%, rgb(245 158 11 / 0.1), transparent 60%),
+      radial-gradient(50rem 30rem at 0% 0%, rgb(56 189 248 / 0.06), transparent 55%);
+    background-attachment: fixed;
+  }
+
+  /* Visible focus for keyboard users, suppressed for mouse clicks. */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-brand-400;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-ink-900;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-ink-600 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-ink-500;
+  }
+}
+
+@layer components {
+  /* The frosted panel used by cards, the filter bar and modals. */
+  .surface {
+    @apply rounded-2xl border border-ink-700/70 bg-ink-900/70 backdrop-blur-sm;
+  }
+
+  .field-label {
+    @apply mb-1.5 block text-xs font-medium uppercase tracking-wider text-ink-300;
+  }
+
+  .skeleton {
+    @apply animate-pulse rounded-md bg-ink-700/60;
+  }
+}

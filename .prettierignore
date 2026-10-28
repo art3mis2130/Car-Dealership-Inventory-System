@@ -1,0 +1,7 @@
+node_modules
+dist
+coverage
+docs/ai-session-transcript.jsonl
+PROMPTS.md
+package-lock.json
+*.md

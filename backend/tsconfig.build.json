@@ -1,0 +1,13 @@
+{
+  // Emit-only configuration: the application sources, nothing else.
+  // tsconfig.json is the wider project the editor, the type checker and
+  // ESLint use, and it covers the tests as well.
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist",
+    "noEmit": false
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "dist", "coverage", "tests"]
+}

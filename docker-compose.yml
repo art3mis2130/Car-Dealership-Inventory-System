@@ -1,0 +1,34 @@
+# One command to run the whole application:
+#
+#   JWT_SECRET=$(openssl rand -hex 32) docker compose up --build
+#
+# Then open http://localhost:4000 - the API serves the built SPA, so there is
+# no second port and no CORS configuration to get wrong.
+
+services:
+  app:
+    build: .
+    ports:
+      - '4000:4000'
+    environment:
+      NODE_ENV: production
+      PORT: 4000
+      # Required: the app refuses to start without it rather than falling back
+      # to a default secret, which is the kind of default that reaches
+      # production.
+      JWT_SECRET: ${JWT_SECRET:?set JWT_SECRET, e.g. export JWT_SECRET=$(openssl rand -hex 32)}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-2h}
+      DATABASE_PATH: /app/data/dealership.db
+      SERVE_SPA: 'true'
+      SPA_DIST_PATH: /app/frontend/dist
+      TRUST_PROXY: 'true'
+      CORS_ORIGIN: ${CORS_ORIGIN:-*}
+      SEED_ADMIN_EMAIL: ${SEED_ADMIN_EMAIL:-admin@dealership.test}
+      SEED_ADMIN_PASSWORD: ${SEED_ADMIN_PASSWORD:-Admin123!}
+    volumes:
+      # The SQLite file outlives the container.
+      - dealership-data:/app/data
+    restart: unless-stopped
+
+volumes:
+  dealership-data:
